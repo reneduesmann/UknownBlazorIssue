@@ -51,6 +51,7 @@ namespace API.Controllers
                         {
                             string trustedFileName = WebUtility.HtmlEncode(contentDisposition.FileName.Value);
 
+                            //only demo
                             using FileStream fs = new("test", FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
                             int bytesRead = 0;
@@ -58,6 +59,9 @@ namespace API.Controllers
 
                             while ((bytesRead = await section.Body.ReadAsync(buffer.AsMemory(0, buffer.Length))) != 0)
                             {
+                                //in my normal project, i write the stream to a mongo database, but this is working.
+                                //but sometimes, when the file from the blazor app reach the api endpoint
+                                //it jumps over this while loop. but i dont know why too.
                                 await fs.WriteAsync(buffer.AsMemory(0, bytesRead));
                             }
 
